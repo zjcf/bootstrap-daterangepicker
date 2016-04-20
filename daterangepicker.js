@@ -57,6 +57,8 @@
         this.autoUpdateInput = true;
         this.alwaysShowCalendars = false;
         this.ranges = {};
+        /* make panel smaller with range pick */
+        this.singlePanel = true;
 
         this.opens = 'right';
         if (this.element.hasClass('pull-right'))
@@ -101,7 +103,7 @@
         if (typeof options.template !== 'string' && !(options.template instanceof $))
             options.template = '<div class="daterangepicker dropdown-menu">' +
                 '<div class="calendar left">' +
-                    '<div class="daterangepicker_input">' +
+                    '<div class="daterangepicker_input left">' +
                       '<input class="input-mini" type="text" name="daterangepicker_start" value="" />' +
                       '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
                       '<div class="calendar-time">' +
@@ -112,7 +114,7 @@
                     '<div class="calendar-table"></div>' +
                 '</div>' +
                 '<div class="calendar right">' +
-                    '<div class="daterangepicker_input">' +
+                    '<div class="daterangepicker_input right">' +
                       '<input class="input-mini" type="text" name="daterangepicker_end" value="" />' +
                       '<i class="fa fa-calendar glyphicon glyphicon-calendar"></i>' +
                       '<div class="calendar-time">' +
@@ -234,6 +236,9 @@
             this.singleDatePicker = options.singleDatePicker;
             if (this.singleDatePicker)
                 this.endDate = this.startDate.clone();
+        }
+        if (typeof options.singlePanel === 'boolean') {
+            this.singlePanel = options.singlePanel;
         }
 
         if (typeof options.timePicker === 'boolean')
@@ -371,6 +376,11 @@
             if (!this.timePicker) {
                 this.container.find('.ranges').hide();
             }
+        }
+        if(this.singlePanel){
+            //hide right
+            this.container.addClass("single-panel").find('.calendar.right').hide();
+            $("<div class='daterangepicker_inputs'></div>").append(this.container.find(".calendar > .daterangepicker_input")).prependTo(this.container.find(".calendar.left"));
         }
 
         if ((typeof options.ranges === 'undefined' && !this.singleDatePicker) || this.alwaysShowCalendars) {
@@ -721,7 +731,7 @@
             }
 
             html += '<th colspan="5" class="month">' + dateHtml + '</th>';
-            if ((!maxDate || maxDate.isAfter(calendar.lastDay)) && (!this.linkedCalendars || side == 'right' || this.singleDatePicker)) {
+            if ((!maxDate || maxDate.isAfter(calendar.lastDay)) && (!this.linkedCalendars || side == 'right' || this.singleDatePicker || this.singlePanel)) {
                 html += '<th class="next available"><i class="fa fa-chevron-right glyphicon glyphicon-chevron-right"></i></th>';
             } else {
                 html += '<th></th>';
@@ -1449,7 +1459,7 @@
         },
 
         formInputsChanged: function(e) {
-            var isRight = $(e.target).closest('.calendar').hasClass('right');
+            var isRight = $(e.target).closest('.daterangepicker_input').hasClass('right');
             var start = moment(this.container.find('input[name="daterangepicker_start"]').val(), this.locale.format);
             var end = moment(this.container.find('input[name="daterangepicker_end"]').val(), this.locale.format);
 

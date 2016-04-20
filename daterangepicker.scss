@@ -21,6 +21,8 @@ $arrow-size:     7px !default;
 // Colors
 $daterangepicker-color:                      inherit !default;
 $daterangepicker-bg-color:                   #fff !default;
+$daterangepicker-border:                     1px solid rgba(34,36,38,.15);
+$daterangepicker-box-shadow:                 0 2px 3px 0 rgba(34,36,38,.15);
 
 $daterangepicker-cell-color:                 $daterangepicker-color !default;
 $daterangepicker-cell-border-color:          transparent !default;
@@ -110,10 +112,13 @@ $daterangepicker-ranges-active-border-size:   $daterangepicker-ranges-border-siz
 $daterangepicker-ranges-active-border-color:  $daterangepicker-ranges-bg-color !default;
 $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !default;
 
+$glyphicon-font-family : url('glyphicons-halflings-regular.woff2');
+
 //
 // STYLESHEETS
 //
 .#{$prefix-class} {
+  display: none;
   position: absolute;
   color: $daterangepicker-color;
   background: $daterangepicker-bg-color;
@@ -121,6 +126,8 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
   width: $daterangepicker-width;
   padding: $daterangepicker-padding;
   margin-top: $daterangepicker-border-size;
+  border: $daterangepicker-border;
+  box-shadow: $daterangepicker-box-shadow;
 
   // TODO: Should these be parameterized??
   top: 100px;
@@ -246,6 +253,7 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
     th, td {
       white-space: nowrap;
       text-align: center;
+      padding: 5px;
 
       // TODO: Should this actually be hard-coded?
       min-width: 32px;
@@ -419,6 +427,15 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
       }
     }
   }
+
+  &.single-panel{
+      .daterangepicker_inputs{
+          .daterangepicker_input{
+              width: 50%;
+              float: left;
+          }
+      }
+  }
 }
 
 //
@@ -523,6 +540,14 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
     .ranges, .calendar {
       float: left;
     }
+
+    &.single-panel .ranges{
+        float: none;
+
+        .range_inputs{
+            float: right;
+        }
+    }
   }
 }
 
@@ -532,9 +557,92 @@ $daterangepicker-ranges-active-border-radius: $daterangepicker-border-radius !de
       width: auto;
       float: left;
     }
+    &.single-panel .ranges{
+        float: none;
+
+        .range_inputs{
+            float: right;
+        }
+    }
 
     .calendar.left {
       clear: none;
     }
   }
+}
+
+/* font copy from bootstrap */
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: $glyphicon-font-family;
+}
+.glyphicon {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.glyphicon-chevron-left:before {
+    content: "\e079";
+}
+.glyphicon-chevron-right:before {
+    content: "\e080";
+}
+.glyphicon-calendar:before {
+    content: "\e109";
+}
+
+.btn{
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+
+    &:hover{
+        color: #333;
+        text-decoration: none;
+    }
+
+    &.btn-default{
+        color: #333;
+        background-color: #fff;
+        border-color: #ccc;
+    }
+    &.btn-default:hover{
+        color: #333;
+        background-color: #e6e6e6;
+        border-color: #adadad;
+    }
+
+    &.btn-success{
+        color: #FFF;
+        background-color: #5cb85c;
+        border-color: #4cae4c;
+    }
+    &.btn-success:hover{
+        color: #fff;
+        background-color: #449d44;
+        border-color: #398439;
+    }
 }
